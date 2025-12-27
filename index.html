@@ -3,330 +3,728 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ирина Иванова | Психотерапия и Системные расстановки</title>
+    <title>Ivanova Irina | Психолог и Психотерапевт</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <!-- Шрифты: Playfair Display для заголовков (стиль старины) и Lato для текста -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
+        /* --- ПЕРЕМЕННЫЕ И ЦВЕТОВАЯ ПАЛИТРА (ФЛАМАНДСКАЯ ШКОЛА) --- */
         :root {
-            --bruegel-dark: #2c241a; /* Глубокий умбристый */
-            --bruegel-ochre: #b38b4d; /* Старая охра */
-            --bruegel-sky: #7a8d91; /* Приглушенный сизый */
-            --bruegel-earth: #4a3728; /* Земляной */
-            --bruegel-accent: #8b3a2b; /* Терракота */
-            --text-light: #f2e9d9; /* Состаренная бумага */
+            --bg-dark: #1C1814;       /* Очень темный коричневый, почти черный (фон картин Рембрандта) */
+            --bg-panel: #26201B;      /* Цвет темного дерева */
+            --text-main: #D4C5A9;     /* Цвет старого пергамента/холста */
+            --text-gold: #C09653;     /* Тусклое золото для акцентов */
+            --text-red: #782F2F;      /* Глубокий красный (одежда на портретах) */
+            --text-muted: #8F8576;    /* Приглушенный серый */
+            
+            --overlay-color: rgba(18, 14, 11, 0.85); /* Затенение для фона */
+            
+            --font-head: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+            
+            --transition: all 0.4s ease;
         }
 
+        /* --- БАЗОВЫЕ СТИЛИ --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        
         html { scroll-behavior: smooth; }
-
+        
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bruegel-dark);
-            color: var(--text-light);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+
+        /* --- ТИПОГРАФИКА --- */
         h1, h2, h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 600;
+            font-family: var(--font-head);
+            font-weight: 400;
+        }
+
+        h2.section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--text-gold);
+            margin-bottom: 3rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2.section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background-color: var(--text-red);
         }
 
         /* --- НАВИГАЦИЯ --- */
-        nav {
+        header {
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
-            background: rgba(44, 36, 26, 0.9);
-            padding: 15px 0;
+            background: rgba(28, 24, 20, 0.95);
+            border-bottom: 1px solid #3a3025;
             z-index: 1000;
-            border-bottom: 1px solid var(--bruegel-ochre);
-            backdrop-filter: blur(8px);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
         }
 
         .nav-container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            color: var(--text-gold);
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
             gap: 30px;
         }
 
-        .nav-link {
-            text-decoration: none;
-            color: var(--bruegel-ochre);
+        .nav-links a {
+            font-size: 0.95rem;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            transition: 0.3s;
+            letter-spacing: 1px;
+            color: var(--text-main);
         }
 
-        .nav-link:hover { color: var(--text-light); }
+        .nav-links a:hover { color: var(--text-gold); }
+
+        /* Переключатель языков */
+        .lang-switch {
+            display: flex;
+            gap: 10px;
+            border-left: 1px solid var(--text-muted);
+            padding-left: 20px;
+            margin-left: 20px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active, .lang-btn:hover { color: var(--text-gold); }
+
+        /* Мобильное меню (Гамбургер) */
+        .hamburger { display: none; cursor: pointer; color: var(--text-gold); font-size: 1.8rem; }
 
         /* --- ГЛАВНАЯ (HERO) --- */
-        header {
-            padding: 140px 20px 80px;
+        #home {
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            text-align: center;
-            background: radial-gradient(circle, #3e3325 0%, #2c241a 100%);
-        }
-
-        /* Маленькое фото автора */
-        .profile-container {
-            width: 180px; /* В 3 раза меньше стандартного */
-            height: 240px;
-            margin-bottom: 30px;
-            border: 5px solid var(--bruegel-ochre);
-            border-radius: 100px 100px 10px 10px; /* Стилизованная арка */
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            justify-content: center;
             position: relative;
+            padding: 80px 20px;
+            text-align: center;
+            /* Фон: фламандская пастораль (заглушенная) */
+            background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
         }
 
-        .profile-container img {
-            width: 100%;
-            height: 100%;
+        #home::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--overlay-color);
+            /* Эффект старого лака */
+            backdrop-filter: sepia(40%) contrast(90%); 
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero-photo {
+            width: 160px;
+            height: 160px;
             object-fit: cover;
-            filter: sepia(0.4) contrast(1.1);
+            border-radius: 50%;
+            border: 3px solid var(--text-gold);
+            margin-bottom: 25px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+            filter: sepia(20%); /* Легкий эффект старины */
         }
 
-        .hero-text h1 {
-            font-size: 3rem;
-            color: var(--bruegel-ochre);
+        .hero-title {
+            font-size: 3.5rem;
+            color: var(--text-gold);
             margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
         .hero-subtitle {
-            font-style: italic;
             font-size: 1.2rem;
+            color: var(--text-main);
             margin-bottom: 30px;
-            color: var(--bruegel-sky);
+            font-style: italic;
         }
 
-        .methods-grid {
-            max-width: 800px;
-            text-align: left;
-            margin: 40px auto;
-            column-count: 2;
-            column-gap: 40px;
-            font-family: 'Cormorant Garamond', serif;
+        .hero-desc {
             font-size: 1.1rem;
+            margin-bottom: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .methods-grid p { margin-bottom: 10px; position: relative; padding-left: 20px; }
-        .methods-grid p::before { content: '•'; position: absolute; left: 0; color: var(--bruegel-accent); }
-
-        /* --- СЕМИНАРЫ --- */
-        #workshops {
-            padding: 100px 20px;
-            background-color: #352d24;
+        /* --- СЕМИНАРЫ (КАРТОЧКИ) --- */
+        #seminars {
+            padding: 80px 20px;
+            background-color: var(--bg-dark);
         }
 
-        .section-header {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 60px;
-            color: var(--bruegel-ochre);
-        }
-
-        .workshops-container {
-            max-width: 1100px;
-            margin: 0 auto;
+        .seminars-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .workshop-card {
-            background: var(--bruegel-dark);
-            border: 1px solid var(--bruegel-earth);
-            transition: 0.4s;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .workshop-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--bruegel-ochre);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-        }
-
-        .card-image {
-            height: 180px;
-            width: 100%;
+        .card {
+            background-color: var(--bg-panel);
+            border: 1px solid #3a3025;
             overflow: hidden;
-            border-bottom: 2px solid var(--bruegel-ochre);
+            transition: var(--transition);
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        .card-image img {
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            border-color: var(--text-gold);
+        }
+
+        .card-img-wrapper {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: 0.5s;
-            filter: saturate(0.7) contrast(1.1);
+            /* Эффект масляной живописи: сепия, контраст, насыщенность */
+            filter: sepia(30%) contrast(110%) saturate(85%) brightness(0.9);
+            transition: transform 0.8s ease, filter 0.8s ease;
         }
 
-        .workshop-card:hover .card-image img {
-            transform: scale(1.1);
-            filter: saturate(1);
+        /* При наведении картина "оживает" */
+        .card:hover .card-img {
+            transform: scale(1.05);
+            filter: sepia(0%) contrast(100%) saturate(100%) brightness(1);
         }
 
-        .card-content {
-            padding: 20px;
+        .card-body {
+            padding: 25px;
         }
 
-        .card-content h3 {
-            color: var(--bruegel-ochre);
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--text-gold);
             margin-bottom: 10px;
-            font-size: 1.4rem;
+            border-bottom: 1px solid #3a3025;
+            padding-bottom: 10px;
         }
 
-        .card-content p {
+        .card-subtitle {
             font-size: 0.9rem;
-            color: #ccc;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-style: italic;
         }
 
-        /* --- КОНТАКТЫ --- */
-        #contact {
-            padding: 100px 20px;
+        .card-text { font-size: 0.95rem; line-height: 1.5; }
+        .card-goal { margin-top: 15px; font-weight: bold; color: var(--text-main); font-size: 0.9rem; }
+
+        /* --- МЕТОДЫ РАБОТЫ --- */
+        #methods {
+            padding: 80px 20px;
+            background-color: #161310;
+        }
+
+        .methods-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-panel);
+            padding: 40px;
+            border: 1px solid var(--text-gold);
+            position: relative;
+        }
+
+        /* Декоративные уголки */
+        .methods-container::before {
+            content: ''; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px solid #3a3025; pointer-events: none;
+        }
+
+        .methods-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .methods-list li::before {
+            content: '♦';
+            color: var(--text-red);
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        .methods-footer {
+            margin-top: 30px;
             text-align: center;
-            background: var(--bruegel-dark);
+            font-style: italic;
+            color: var(--text-muted);
+            border-top: 1px solid #3a3025;
+            padding-top: 20px;
         }
 
-        .contact-info {
-            border: 1px double var(--bruegel-ochre);
-            display: inline-block;
-            padding: 40px 60px;
+        /* --- КОНТАКТ --- */
+        #contact {
+            padding: 80px 20px;
+            background: linear-gradient(to top, #110f0d, var(--bg-dark));
+            text-align: center;
+        }
+
+        .contact-box {
+            max-width: 600px;
+            margin: 0 auto 50px;
+            padding: 30px;
+            border: 2px double var(--text-gold);
             background: rgba(255,255,255,0.02);
         }
 
-        .email-link {
-            color: var(--bruegel-ochre);
-            font-size: 1.8rem;
-            text-decoration: none;
-            font-family: 'Cormorant Garamond', serif;
-            transition: 0.3s;
+        .warning-text {
+            color: var(--text-red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            font-weight: 700;
         }
 
-        .email-link:hover { color: var(--text-light); }
+        .contact-info { font-size: 1.2rem; margin-bottom: 10px; }
 
-        /* --- МОБИЛЬНАЯ АДАПТАЦИЯ --- */
+        .testimonial {
+            max-width: 800px;
+            margin: 0 auto;
+            font-family: var(--font-head);
+            font-style: italic;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: var(--text-main);
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '“';
+            font-size: 5rem;
+            color: var(--text-gold);
+            opacity: 0.2;
+            position: absolute;
+            top: -40px;
+            left: -20px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid #3a3025;
+            background-color: #110f0d;
+        }
+
+        /* --- АНИМАЦИИ --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- АДАПТИВНОСТЬ --- */
         @media (max-width: 768px) {
-            .methods-grid { column-count: 1; }
-            .hero-text h1 { font-size: 2rem; }
-            .nav-container { gap: 15px; font-size: 0.7rem; }
-            .contact-info { padding: 30px; }
+            .hamburger { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-panel);
+                flex-direction: column;
+                align-items: center;
+                padding: 30px 0;
+                transform: translateY(-150%);
+                transition: transform 0.4s ease;
+                border-bottom: 1px solid var(--text-gold);
+            }
+            .nav-links.active { transform: translateY(0); }
+            .hero-title { font-size: 2.2rem; }
+            .section-title { font-size: 2rem; }
         }
+
+        /* --- КЛАССЫ ДЛЯ ЯЗЫКОВ --- */
+        /* Скрываем ненужный язык */
+        body.lang-ru .lang-de { display: none !important; }
+        body.lang-de .lang-ru { display: none !important; }
+        
+        /* Показываем строчные элементы */
+        body.lang-ru span.lang-ru { display: inline !important; }
+        body.lang-de span.lang-de { display: inline !important; }
     </style>
 </head>
-<body>
+<body class="lang-ru">
 
-    <nav>
+    <!-- НАВИГАЦИЯ -->
+    <header>
         <div class="nav-container">
-            <a href="#home" class="nav-link">Главная</a>
-            <a href="#workshops" class="nav-link">Семинары</a>
-            <a href="#contact" class="nav-link">Контакт</a>
-        </div>
-    </nav>
-
-    <header id="home">
-        <!-- Фото уменьшено в 3 раза -->
-        <div class="profile-container">
-            <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=400&q=80" alt="Ирина Иванова">
-        </div>
-        
-        <div class="hero-text">
-            <p style="color: var(--bruegel-sky); letter-spacing: 3px;">АВТОРСКИЙ САЙТ</p>
-            <h1>Ирина Иванова</h1>
-            <div class="hero-subtitle">Практикующий психолог и психотерапевт (Берлин)</div>
-            <p>Более 20 лет профессионального опыта | Русский / Deutsch</p>
+            <a href="#home" class="logo">IVANOVA IRINA</a>
             
-            <div class="methods-grid">
-                <p>Психоанализ, психодинамическая терапия</p>
-                <p>Когнитивно-поведенческая терапия (КПТ)</p>
-                <p>Травматерапия, ДПДГ, EMDR, Brainspotting</p>
-                <p>Системные терапевтические расстановки</p>
-                <p>«ВсеЛенская терапия» Л. Тальписа</p>
-                <p>Телесно-ориентированная терапия, EFT</p>
-                <p>Иммагинативная (образная) терапия</p>
-                <p>Провокационная и гештальт терапия</p>
-                <p>Meaning-making (терапия смыслов)</p>
-            </div>
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+            
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home" onclick="toggleMenu()">
+                        <span class="lang-ru">Главная</span><span class="lang-de">Startseite</span>
+                    </a></li>
+                    <li><a href="#seminars" onclick="toggleMenu()">
+                        <span class="lang-ru">Семинары</span><span class="lang-de">Seminare</span>
+                    </a></li>
+                    <li><a href="#methods" onclick="toggleMenu()">
+                        <span class="lang-ru">Методы</span><span class="lang-de">Methoden</span>
+                    </a></li>
+                    <li><a href="#contact" onclick="toggleMenu()">
+                        <span class="lang-ru">Контакт</span><span class="lang-de">Kontakt</span>
+                    </a></li>
+                </ul>
+            </nav>
 
-            <p style="max-width: 700px; margin: 0 auto; font-style: italic; color: var(--bruegel-sky);">
-                "Я работаю интегративно — свободно объединяю подходы, выбирая методы, которые лучше всего соответствуют вашему запросу и состоянию."
-            </p>
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="setLang('ru')">RU</button> /
+                <button class="lang-btn" onclick="setLang('de')">DE</button>
+            </div>
         </div>
     </header>
 
-    <section id="workshops">
-        <h2 class="section-header">Терапевтические группы</h2>
+    <!-- ГЛАВНАЯ -->
+    <section id="home">
+        <div class="hero-content">
+            <!-- Фото placeholder: Женщина, профессиональный портрет -->
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Irina Ivanova" class="hero-photo">
+            
+            <h2 class="hero-subtitle">
+                <span class="lang-ru">Авторский сайт практикующего психолога и психотерапевта (Берлин)</span>
+                <span class="lang-de">Website der praktizierenden Psychologin und Psychotherapeutin (Berlin)</span>
+            </h2>
+            
+            <h1 class="hero-title">Ivanova Irina</h1>
+            
+            <div class="hero-desc">
+                <p class="lang-ru">
+                    Более 20 лет профессионального опыта. <br>
+                    Владею всеми известными в научном мире психотерапевтическими подходами. Метод подбираю под запрос, личность и состояние клиента. Сочетаю глубинное понимание психодинамики с краткосрочными техниками.
+                </p>
+                <p class="lang-de">
+                    Über 20 Jahre Berufserfahrung. <br>
+                    Ich beherrsche alle wissenschaftlich anerkannten psychotherapeutischen Ansätze. Die Methode wird individuell an das Anliegen, die Persönlichkeit und den Zustand des Klienten angepasst.
+                </p>
+            </div>
+            
+            <p style="color: var(--text-gold); font-style: italic;">
+                <span class="lang-ru">Клиент увидит внутренние взаимосвязи, вернёт ощущение порядка и опоры там, где был хаос.</span>
+                <span class="lang-de">Der Klient erkennt innere Zusammenhänge und gewinnt Halt dort zurück, wo Chaos herrschte.</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- СЕМИНАРЫ -->
+    <section id="seminars">
+        <h2 class="section-title">
+            <span class="lang-ru">Описание семинаров</span>
+            <span class="lang-de">Unsere Seminare</span>
+        </h2>
+
+        <div class="seminars-grid">
+            
+            <!-- Карточка 1: Отношения (Портрет пары) -->
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Отношения" class="card-img">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <span class="lang-ru">Отношения</span><span class="lang-de">Beziehungen</span>
+                    </h3>
+                    <p class="card-subtitle">
+                        <span class="lang-ru">Повторяющиеся сценарии, близость, выбор партнёров.</span>
+                        <span class="lang-de">Wiederkehrende Szenarien, Nähe, Partnerwahl.</span>
+                    </p>
+                    <p class="card-text lang-ru">Запутались в отношениях? Снова наступаете на одни и те же «грабли»? Пора разрушить иллюзии.</p>
+                    <p class="card-text lang-de">Verwirrt in Beziehungen? Treten Sie immer wieder in dieselben Fallen?</p>
+                    <p class="card-goal">
+                        <span class="lang-ru">Цель: увидеть подсознательные стратегии и заменить новыми.</span>
+                        <span class="lang-de">Ziel: Unterbewusste Strategien erkennen und ändern.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Карточка 2: Благосостояние (Натюрморт с изобильным столом) -->
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1549488497-2965b9395914?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Благосостояние" class="card-img">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <span class="lang-ru">Благосостояние</span><span class="lang-de">Wohlstand</span>
+                    </h3>
+                    <p class="card-subtitle">
+                        <span class="lang-ru">Деньги, успех, бизнес, внутренние ограничения.</span>
+                        <span class="lang-de">Geld, Erfolg, Business, innere Blockaden.</span>
+                    </p>
+                    <p class="card-text lang-ru">Хотите снять внутренние блоки, мешающие финансовому успеху?</p>
+                    <p class="card-text lang-de">Wollen Sie innere Blockaden lösen, die dem finanziellen Erfolg im Weg stehen?</p>
+                    <p class="card-goal">
+                        <span class="lang-ru">Цель: изменить глубинное отношение к деньгам, убрать барьеры.</span>
+                        <span class="lang-de">Ziel: Tiefe Einstellung zu Geld ändern, Barrieren entfernen.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Карточка 3: Семья (Групповой портрет, напряжение) -->
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1551636898-000593bdc742?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Семья" class="card-img">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <span class="lang-ru">Динамика семьи</span><span class="lang-de">Familiendynamik</span>
+                    </h3>
+                    <p class="card-subtitle">
+                        <span class="lang-ru">Системные расстановки, конфликты.</span>
+                        <span class="lang-de">Systemische Aufstellungen, Konflikte.</span>
+                    </p>
+                    <p class="card-text lang-ru">Есть проблемы с родителями или детьми? Хотите понять причины?</p>
+                    <p class="card-text lang-de">Probleme mit Eltern oder Kindern? Ursachen verstehen?</p>
+                    <p class="card-goal">
+                        <span class="lang-ru">Цель: увидеть системную динамику и восстановить тепло.</span>
+                        <span class="lang-de">Ziel: Dynamiken erkennen und Wärme wiederherstellen.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Карточка 4: Любой запрос (Пейзаж Брейгеля - горизонты) -->
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1465420108398-356c32c4e223?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Запрос" class="card-img">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <span class="lang-ru">Любой твой запрос</span><span class="lang-de">Individuelles Anliegen</span>
+                    </h3>
+                    <p class="card-subtitle">
+                        <span class="lang-ru">Расстановки по ВсеЛенке.</span>
+                        <span class="lang-de">Aufstellungen nach "VseLenka".</span>
+                    </p>
+                    <p class="card-text lang-ru">Семинар для всех и обо всём. Даже если вы пока не можете точно сформулировать вопрос.</p>
+                    <p class="card-text lang-de">Ein Seminar für alle und über alles, auch ohne klare Frage.</p>
+                    <p class="card-goal">
+                        <span class="lang-ru">Цель: Осознать проблему и найти пути её решения.</span>
+                        <span class="lang-de">Ziel: Problem erkennen und Lösungswege finden.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Карточка 5: Метафорические расстановки (Разные характеры) -->
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1558284897-a7eb26462432?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Метафоры" class="card-img">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <span class="lang-ru">Метафорические расстановки</span><span class="lang-de">Metaphorische Aufstellungen</span>
+                    </h3>
+                    <p class="card-subtitle">
+                        <span class="lang-ru">Стратегии выживания, новые ресурсы.</span>
+                        <span class="lang-de">Überlebensstrategien, neue Ressourcen.</span>
+                    </p>
+                    <p class="card-text lang-ru">Устали ходить по кругу? Хотите найти новые формы взаимодействия?</p>
+                    <p class="card-text lang-de">Müde vom Kreisverkehr? Neue Interaktionsformen finden?</p>
+                    <p class="card-goal">
+                        <span class="lang-ru">Цель: Увидеть внутренние ресурсы и стратегии.</span>
+                        <span class="lang-de">Ziel: Innere Ressourcen und Strategien erkennen.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Карточка 6: Индивидуальная работа (Дверь в свет) -->
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Индивидуально" class="card-img">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <span class="lang-ru">Индивидуальная работа</span><span class="lang-de">Einzelberatung</span>
+                    </h3>
+                    <p class="card-subtitle">
+                        <span class="lang-ru">Личный запрос, конфиденциальность.</span>
+                        <span class="lang-de">Persönliches Anliegen, vertraulich.</span>
+                    </p>
+                    <p class="card-text lang-ru">Запрос на индивидуальное консультирование, который сложно обнародовать в группе.</p>
+                    <p class="card-text lang-de">Anliegen für eine Einzelberatung, die in der Gruppe schwierig zu teilen sind.</p>
+                    <p class="card-goal">
+                        <span class="lang-ru">Консультация один на один.</span>
+                        <span class="lang-de">Einzelgespräch.</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- МЕТОДЫ -->
+    <section id="methods">
+        <h2 class="section-title">
+            <span class="lang-ru">Методы работы</span>
+            <span class="lang-de">Arbeitsmethoden</span>
+        </h2>
         
-        <div class="workshops-container">
-            <!-- Группа 1: Отношения -->
-            <div class="workshop-card">
-                <div class="card-image">
-                    <!-- Имитация Брейгеля: пара/люди -->
-                    <img src="https://images.unsplash.com/photo-1581260466152-d2c0303e54f5?auto=format&fit=crop&w=600&q=80" alt="Отношения">
-                </div>
-                <div class="card-content">
-                    <h3>Отношения</h3>
-                    <p>Выход из сложных эмоциональных лабиринтов, работа с родительскими сценариями и поиск настоящей любви.</p>
-                </div>
-            </div>
+        <div class="methods-container">
+            <ul class="methods-list lang-ru">
+                <li>Психоанализ, глубинная психодинамическая терапия</li>
+                <li>Когнитивно-поведенческая терапия (КПТ)</li>
+                <li>Травматерапия, ДПДГ, EMDR, Brainspotting</li>
+                <li>Системные терапевтические расстановки</li>
+                <li>«ВсеЛенская терапия» Л. Тальписа</li>
+                <li>Телесно-ориентированная терапия, EFT (терапия таппинга)</li>
+                <li>Иммагинативная (образная) терапия</li>
+                <li>Провокационная терапия, гештальт терапия</li>
+                <li>Meaning-making (терапия смыслов)</li>
+            </ul>
 
-            <!-- Группа 2: Благосостояние -->
-            <div class="workshop-card">
-                <div class="card-image">
-                    <!-- Имитация натюрморта/рынка Брейгеля -->
-                    <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=600&q=80" alt="Благосостояние">
-                </div>
-                <div class="card-content">
-                    <h3>Благосостояние</h3>
-                    <p>Снятие внутренних блоков на пути к финансовому успеху и гармонизация отношений с миром материи.</p>
-                </div>
-            </div>
+            <ul class="methods-list lang-de">
+                <li>Psychoanalyse, tiefenpsychologisch fundierte Therapie</li>
+                <li>Kognitive Verhaltenstherapie (KVT)</li>
+                <li>Traumatherapie, EMDR, Brainspotting</li>
+                <li>Systemische therapeutische Aufstellungen</li>
+                <li>"VseLenskaya Therapie" nach L. Talpis</li>
+                <li>Körperorientierte Therapie, EFT (Tapping)</li>
+                <li>Imaginative Therapie</li>
+                <li>Provokative Therapie, Gestalttherapie</li>
+                <li>Meaning-making (Sinntherapie)</li>
+            </ul>
 
-            <!-- Группа 3: Динамика семьи -->
-            <div class="workshop-card">
-                <div class="card-image">
-                    <!-- Имитация Брейгеля: деревня/семья -->
-                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&q=80" alt="Семья">
-                </div>
-                <div class="card-content">
-                    <h3>Динамика семьи</h3>
-                    <p>Системные расстановки для решения конфликтов с близкими и изменения родовых программ.</p>
-                </div>
-            </div>
-
-            <!-- Группа 4: Любой запрос -->
-            <div class="workshop-card">
-                <div class="card-image">
-                    <!-- Атмосферный ландшафт -->
-                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80" alt="Запрос">
-                </div>
-                <div class="card-content">
-                    <h3>Любой твой запрос</h3>
-                    <p>ВсеЛенские расстановки. Семинар для тех, кто ищет ответ на важный, но еще не сформулированный вопрос.</p>
-                </div>
+            <div class="methods-footer">
+                <span class="lang-ru">Я работаю интегративно — объединяю различные подходы, выбирая методы, которые лучше всего соответствуют запросу.</span>
+                <span class="lang-de">Ich arbeite integrativ — ich kombiniere verschiedene Ansätze und wähle Methoden, die am besten zum Anliegen passen.</span>
             </div>
         </div>
     </section>
 
-    <footer id="contact">
-        <div class="contact-info">
-            <h2 style="margin-bottom: 20px; font-family: 'Cormorant Garamond', serif;">Записаться на консультацию</h2>
-            <p style="margin-bottom: 15px; color: var(--bruegel-sky);">Берлин / Онлайн</p>
-            <a href="mailto:XXX" class="email-link">Email: XXX</a>
+    <!-- КОНТАКТЫ -->
+    <section id="contact">
+        <h2 class="section-title">
+            <span class="lang-ru">Контакт</span>
+            <span class="lang-de">Kontakt</span>
+        </h2>
+
+        <div class="contact-box">
+            <p class="warning-text">
+                <span class="lang-ru">Приём только по предварительной записи</span>
+                <span class="lang-de">Termine nur nach Vereinbarung</span>
+            </p>
+            <p class="contact-info">Email: XXX@example.com</p>
+            <p class="contact-info">
+                <span class="lang-ru">Телефон:</span><span class="lang-de">Telefon:</span> 
+                XXXX-XXXXXXX
+            </p>
         </div>
-        <p style="margin-top: 50px; font-size: 0.7rem; color: var(--bruegel-earth); letter-spacing: 1px;">
-            &copy; ИРИНА ИВАНОВА. ДИЗАЙН ВДОХНОВЛЕН ФЛАМАНДСКИМИ МАСТЕРАМИ.
-        </p>
+
+        <div class="testimonial">
+            <div class="lang-ru">
+                «Терапевтическая работа Ирины Ивановой соединяет две мощные энергии — любовь и мудрость. Семинары дарят мне глубину, интуицию и способность смотреть шире... Ирина помогает увидеть истину и человечность там, где раньше казалось, что есть только боль или хаос.»
+            </div>
+            <div class="lang-de">
+                "Die therapeutische Arbeit von Irina Ivanova verbindet zwei mächtige Energien – Liebe und Weisheit. Die Seminare schenken mir Tiefe und Intuition... Irina hilft, Wahrheit und Menschlichkeit dort zu sehen, wo früher nur Schmerz oder Chaos zu sein schienen."
+            </div>
+            <br>
+            <span style="font-size: 1rem; color: var(--text-gold);">— <span class="lang-ru">Отзыв клиента</span><span class="lang-de">Kundenbewertung</span></span>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2025 Ivanova Irina. Berlin. <span class="lang-ru">Все права защищены.</span><span class="lang-de">Alle Rechte vorbehalten.</span></p>
     </footer>
 
+    <!-- СКРИПТЫ -->
+    <script>
+        // Функция переключения языка
+        function setLang(lang) {
+            document.body.className = 'lang-' + lang;
+            
+            // Обновляем активность кнопок
+            const buttons = document.querySelectorAll('.lang-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(lang)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Мобильное меню
+        function toggleMenu() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('active');
+        }
+
+        // Инициализация при загрузке (по умолчанию русский)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Если в URL есть #de, включаем немецкий, иначе русский
+            if(window.location.hash.includes('de')) {
+                setLang('de');
+            } else {
+                setLang('ru');
+            }
+        });
+    </script>
 </body>
 </html>
