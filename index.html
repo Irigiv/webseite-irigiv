@@ -154,7 +154,7 @@
         /* Эффект "старого лака" (Overlay) */
         #home::before {
             content: ''; position: absolute; inset: 0;
-            background: linear-gradient(rgba(20,16,12,0.7), rgba(20,16,12,0.95));
+            background: linear-gradient(rgba(20,16,12,0.2), rgba(20,16,12,0.5));
             z-index: 1;
         }
 
@@ -202,6 +202,40 @@
             text-align: center;
         }
 
+        .card-with-image {
+            padding: 20px;
+            height: 300px;
+            background-image: url('paar.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            color: var(--text-light);
+        }
+
+        .card-with-image .card-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: transparent;
+            padding: 20px;
+        }
+
+        .card-with-image .card-overlay h3,
+        .card-with-image .card-overlay p {
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+        }
+
+        .card-with-image .card-overlay a {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+        }
+
+        .card {
+            height: 300px;
+            overflow: hidden;
+        }
+
         .card:hover {
             transform: translateY(-5px);
             border-color: var(--accent-gold);
@@ -229,7 +263,7 @@
             text-align: center; transition: var(--transition);
         }
 
-        .btn-card:hover { background: var(--accent-gold); color: var(--bg-dark); }
+        .btn-card:hover { background: var(--accent-gold); color: var(--bg-dark); transform: translateY(-3px); }
 
         /* --- 7. МЕТОДЫ (СПИСОК) --- */
         #methods { background: #0f0c09; padding: 80px 20px; }
@@ -304,6 +338,11 @@
             .nav-links.active { right: 0; }
             .hamburger { display: block; z-index: 1001; }
             .methods-box { padding: 20px; }
+            .grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 15px;
+            }
+            .card { padding: 15px; }
         }
 
         @keyframes fadeIn {
@@ -354,8 +393,8 @@
             <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop" alt="Irina Ivanova" class="hero-photo">
             
             <h2 class="hero-subtitle">
-                <span class="lang-ru">Практикующий психолог и психотерапевт (Берлин)</span>
-                <span class="lang-de">Praktizierende Psychologin und Psychotherapeutin (Berlin)</span>
+                <span class="lang-ru">Психолог и психотерапевт (Берлин)</span>
+                <span class="lang-de">Psychologin und Psychotherapeutin (Berlin)</span>
             </h2>
             
             <h1 class="hero-title">Ivanova Irina</h1>
@@ -384,10 +423,12 @@
 
         <div class="grid">
             <!-- 1. Отношения -->
-            <div class="card">
-                <h3><span class="lang-ru">Отношения</span><span class="lang-de">Beziehungen</span></h3>
-                <p class="card-meta"><span class="lang-ru">Повторяющиеся сценарии, близость, выбор партнёров. Цель: увидеть подсознательные стратегии и заменить новыми, здоровыми.</span><span class="lang-de">Wiederkehrende Szenarien, Nähe, Partnerwahl. Ziel: Unterbewusste Strategien erkennen und durch neue, gesunde ersetzen.</span></p>
-                <a href="#contact" class="btn-card"><span class="lang-ru">Подробнее</span><span class="lang-de">Mehr erfahren</span></a>
+            <div class="card card-with-image">
+                <div class="card-overlay">
+                    <h3><span class="lang-ru">Отношения</span><span class="lang-de">Beziehungen</span></h3>
+                    <p class="card-meta"><span class="lang-ru">Повторяющиеся сценарии, близость, выбор партнёров. Цель: увидеть подсознательные стратегии и заменить новыми, здоровыми.</span><span class="lang-de">Wiederkehrende Szenarien, Nähe, Partnerwahl. Ziel: Unterbewusste Strategien erkennen und durch neue, gesunde ersetzen.</span></p>
+                    <a href="#contact" class="btn-card"><span class="lang-ru">Подробнее</span><span class="lang-de">Mehr erfahren</span></a>
+                </div>
             </div>
 
             <!-- 2. Благосостояние -->
